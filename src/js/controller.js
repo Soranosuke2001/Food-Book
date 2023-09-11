@@ -30,11 +30,20 @@ function displaySpinner(parentElement) {
 }
 
 // Displays a single recipe using a single recipe ID
-async function showRecipes() {
+async function showRecipe() {
   try {
+    // Loading Spinner
     displaySpinner(recipeContainer);
+
+    // Fetch recipe ID from URL
+    const id = window.location.hash.slice(1);
+
+    if (!id) return;
+
+    // Fetch the recipe
     const response = await fetch(
-      `https://forkify-api.herokuapp.com/api/v2/recipes/5ed6604591c37cdc054bc886`
+      `https://forkify-api.herokuapp.com/api/v2/recipes/${id}`
+      // `https://forkify-api.herokuapp.com/api/v2/recipes/#5ed6604591c37cdc054bc886`
     );
 
     const data = await response.json();
@@ -55,6 +64,7 @@ async function showRecipes() {
       ingredients: recipe.ingredients,
     };
 
+    // Format HTML code to display recipe
     const html = `
     <figure class="recipe__fig">
       <img src="${recipe.image}" alt="${recipe.title}" class="recipe__img" />
@@ -152,6 +162,7 @@ async function showRecipes() {
     </div>
     `;
 
+    // Display the recipe
     recipeContainer.innerHTML = "";
     recipeContainer.insertAdjacentHTML("afterbegin", html);
 
@@ -161,4 +172,4 @@ async function showRecipes() {
   }
 }
 
-showRecipes();
+["hashchange", "load"].forEach(ev => window.addEventListener(ev, showRecipe));
