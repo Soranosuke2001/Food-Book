@@ -1,0 +1,15 @@
+{
+  "name": "food-book",
+  "version": "1.0.0",
+  "description": "Recipe applicaiton",
+  "scripts": {
+    "start": "parcel index.html",
+    "build": "parcel build index.html"
+  },
+  "author": "Sora",
+  "license": "ISC",
+  "devDependencies": {
+    "@parcel/transformer-sass": "^2.9.3",
+    "parcel": "^2.9.3"
+  }
+}
