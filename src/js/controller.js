@@ -10,6 +10,7 @@ import {
   state,
   loadSearchResults,
   getSearchResultsPage,
+  updateServings,
 } from "./model";
 import paginationView from "./views/paginationView";
 
@@ -71,9 +72,16 @@ function controlPagination(nextPage) {
   paginationView.render(state.search);
 }
 
+// Update the recipe servings
+function controlServings(servings) {
+  updateServings(servings);
+  recipeView.render(state.recipe);
+}
+
 // Adding event handler functionality
 (function () {
   recipeView.addHandlerRender(controlRecipes);
+  recipeView.addHandlerUpdateServings(controlServings);
   searchView.addHandlerSearch(controlSearchResults);
   paginationView.addHandlerClick(controlPagination);
 })();

@@ -66,3 +66,15 @@ export function getSearchResultsPage(page) {
 
   return state.search.results.slice(start, end);
 }
+
+// Update the amount of servings
+export function updateServings(servings) {
+  // Calculate the new servings amount
+  state.recipe.ingredients.forEach(ingredient => {
+    ingredient.quantity =
+      (ingredient.quantity * servings) / state.recipe.servings;
+  });
+
+  // Save the servings count
+  state.recipe.servings = servings;
+}
