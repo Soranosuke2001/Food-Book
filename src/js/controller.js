@@ -12,8 +12,6 @@ const timeout = function (s) {
   });
 };
 
-// https://forkify-api.herokuapp.com/v2
-
 ///////////////////////////////////////
 
 // Displays a single recipe using a single recipe ID
@@ -37,6 +35,7 @@ async function controlRecipes() {
   }
 }
 
+// Fetch recipe data
 ["hashchange", "load"].forEach(ev =>
   window.addEventListener(ev, controlRecipes)
 );

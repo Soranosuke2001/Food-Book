@@ -2,6 +2,7 @@ export const state = {
   recipe: {},
 };
 
+// Fetch the recipe data
 export async function loadRecipe(id) {
   try {
     const response = await fetch(

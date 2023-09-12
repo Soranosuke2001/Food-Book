@@ -6,6 +6,7 @@ class RecipeView {
   #parentElement = document.querySelector(".recipe");
   #data;
 
+  // Display the recipe section
   render(data) {
     this.#data = data;
     const html = this.#generateMarkup();
@@ -15,6 +16,7 @@ class RecipeView {
     this.#parentElement.insertAdjacentHTML("afterbegin", html);
   }
 
+  // Display the loading spinner
   displaySpinner() {
     const html = `
     <div class="spinner">
@@ -24,14 +26,16 @@ class RecipeView {
     </div>
     `;
 
-    this.#clearHTML;
+    this.#clearHTML();
     this.#parentElement.insertAdjacentHTML("afterbegin", html);
   }
 
+  // Clear all HTML
   #clearHTML() {
     this.#parentElement.innerHTML = "";
   }
 
+  // Generate the HTML for the recipe section
   #generateMarkup() {
     const {
       image,
@@ -123,6 +127,7 @@ class RecipeView {
         `;
   }
 
+  // Generate the HTML for the list of ingredients section
   #generateIngredientMarkup(ingredient) {
     return `
         <li class="recipe__ingredient">
