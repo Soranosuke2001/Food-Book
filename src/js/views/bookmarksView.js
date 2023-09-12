@@ -2,18 +2,20 @@ import previewView from "./previewView";
 import View from "./view";
 import icons from "url:../../img/icons.svg";
 
-class ResultsView extends View {
-  _parentElement = document.querySelector(".results");
-  _errorMessage = "No recipes found for your query. Please try again.";
+class BookmarksView extends View {
+  _parentElement = document.querySelector(".bookmarks__list");
+  _errorMessage = "No bookmarks yet. Find a nice recipe and bookmark it!";
   _successMessage = "";
 
   // Return the entire HTML code to preview recipes
   _generateMarkup() {
-    return this._data.map(recipe => previewView.render(recipe, false)).join("");
+    return this._data
+      .map(bookmark => previewView.render(bookmark, false))
+      .join("");
   }
 }
 
-export default new ResultsView();
+export default new BookmarksView();
 
 // <div class="preview__user-generated">
 // <svg>

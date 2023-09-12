@@ -5,6 +5,8 @@ import { async } from "regenerator-runtime";
 import recipeView from "./views/recipeView";
 import searchView from "./views/searchView";
 import resultsView from "./views/resultsView";
+import paginationView from "./views/paginationView";
+import bookmarksView from "./views/bookmarksView";
 import {
   loadRecipe,
   state,
@@ -14,7 +16,6 @@ import {
   addBookmark,
   removeBookmark,
 } from "./model";
-import paginationView from "./views/paginationView";
 
 if (module.hot) {
   module.hot.accept();
@@ -33,6 +34,7 @@ async function controlRecipes() {
 
     // Update the necessary DOM
     resultsView.update(getSearchResultsPage(state.search.currentPage));
+    bookmarksView.update(state.bookmarks);
 
     // Fetch the recipe
     await loadRecipe(id);
@@ -87,11 +89,13 @@ function controlServings(servings) {
 function controlBookmark() {
   // If the recipe is not bookmarked
   if (!state.recipe.bookmarked) addBookmark(state.recipe);
-  
   // If the recipe is already bookmarked
   else removeBookmark(state.recipe.id);
 
   recipeView.update(state.recipe);
+
+  // Display bookmarks under the bookmarks tab
+  bookmarksView.render(state.bookmarks);
 }
 
 // Adding event handler functionality

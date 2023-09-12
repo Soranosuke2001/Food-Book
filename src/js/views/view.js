@@ -4,13 +4,15 @@ export default class View {
   _data;
 
   // Display the recipe section
-  render(data) {
+  render(data, render = true) {
     // Check if there is data
     if (!data || (Array.isArray(data) && data.length === 0))
       return this.renderError();
 
     this._data = data;
     const html = this._generateMarkup();
+
+    if (!render) return html;
 
     // Display the recipe
     this._clearHTML();
