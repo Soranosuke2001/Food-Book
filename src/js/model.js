@@ -52,6 +52,8 @@ export async function loadSearchResults(query) {
         image: recipe.image_url,
       };
     });
+
+    state.search.currentPage = 1;
   } catch (error) {
     console.error(error);
 
