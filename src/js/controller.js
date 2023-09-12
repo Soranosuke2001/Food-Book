@@ -1,16 +1,9 @@
 import "core-js/stable";
 import "regenerator-runtime/runtime";
+import { async } from "regenerator-runtime";
 
 import { loadRecipe, state } from "./model";
 import recipeView from "./views/recipeView";
-
-const timeout = function (s) {
-  return new Promise(function (_, reject) {
-    setTimeout(function () {
-      reject(new Error(`Request took too long! Timeout after ${s} second`));
-    }, s * 1000);
-  });
-};
 
 ///////////////////////////////////////
 
@@ -31,11 +24,10 @@ async function controlRecipes() {
     // Display the recipe
     recipeView.render(state.recipe);
   } catch (error) {
-    alert(error);
+    console.error(error);
   }
 }
 
-// Fetch recipe data
-["hashchange", "load"].forEach(ev =>
-  window.addEventListener(ev, controlRecipes)
-);
+(function () {
+  recipeView.addHandlerRender(controlRecipes);
+})();
