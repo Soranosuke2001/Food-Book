@@ -43,16 +43,21 @@ async function controlRecipes() {
 // Fetch the query search results
 async function controlSearchResults() {
   try {
+    // Show loading state
     resultsView.displaySpinner();
 
+    // Fetch the query parameter from the user input
     const query = searchView.getQuery();
 
     if (!query) return;
 
+    // Fetch the list of recipes
     await loadSearchResults(query);
 
+    // Render the list of preview recipes
     resultsView.render(getSearchResultsPage(state.search.currentPage));
 
+    // Set the pagination
     paginationView.render(state.search);
   } catch (error) {
     console.error(error);

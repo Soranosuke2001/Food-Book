@@ -4,18 +4,22 @@ import icons from "url:../../img/icons.svg";
 class PaginationView extends View {
   _parentElement = document.querySelector(".pagination");
 
+  // Page pagination button click handler
   addHandlerClick(handler) {
     this._parentElement.addEventListener("click", e => {
       const button = e.target.closest(".btn--inline");
 
       if (!button) return;
 
+      // Fetch which is the next page
       const nextPage = +button.dataset.goto;
 
+      // Rerender the list of preview recipes after paginating
       handler(nextPage);
     });
   }
 
+  // Render the HTML for pagination buttons
   _generateMarkup() {
     const { currentPage, resultsPerPage, results } = this._data;
     const numPages = Math.ceil(results.length / resultsPerPage);
