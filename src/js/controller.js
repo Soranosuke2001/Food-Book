@@ -11,6 +11,8 @@ import {
   loadSearchResults,
   getSearchResultsPage,
   updateServings,
+  addBookmark,
+  removeBookmark,
 } from "./model";
 import paginationView from "./views/paginationView";
 
@@ -81,10 +83,22 @@ function controlServings(servings) {
   recipeView.update(state.recipe);
 }
 
+// Saving recipes to the list of bookmarks
+function controlBookmark() {
+  // If the recipe is not bookmarked
+  if (!state.recipe.bookmarked) addBookmark(state.recipe);
+  
+  // If the recipe is already bookmarked
+  else removeBookmark(state.recipe.id);
+
+  recipeView.update(state.recipe);
+}
+
 // Adding event handler functionality
 (function () {
   recipeView.addHandlerRender(controlRecipes);
   recipeView.addHandlerUpdateServings(controlServings);
+  recipeView.addHandlerAddBookmark(controlBookmark);
   searchView.addHandlerSearch(controlSearchResults);
   paginationView.addHandlerClick(controlPagination);
 })();

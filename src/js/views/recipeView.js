@@ -9,12 +9,13 @@ class RecipeView extends View {
     "We could not find the requested recipe. Please try another one!";
   _successMessage = "";
 
-  // addEventListener function
+  // When the page initially loads or the url changes
   addHandlerRender(handler) {
     // Fetch recipe data
     ["hashchange", "load"].forEach(ev => window.addEventListener(ev, handler));
   }
 
+  // When the +/- servings button is clicked
   addHandlerUpdateServings(handler) {
     this._parentElement.addEventListener("click", e => {
       const button = e.target.closest(".btn--update-servings");
@@ -26,6 +27,17 @@ class RecipeView extends View {
       if (servings > 0) {
         handler(servings);
       }
+    });
+  }
+
+  // When the bookmarks button is clicked
+  addHandlerAddBookmark(handler) {
+    this._parentElement.addEventListener("click", e => {
+      const button = e.target.closest(".btn--bookmark");
+
+      if (!button) return;
+
+      handler();
     });
   }
 
@@ -83,9 +95,11 @@ class RecipeView extends View {
             </div>
           </div>
     
-          <button class="btn--round">
+          <button class="btn--round btn--bookmark">
             <svg class="">
-              <use href="${icons}#icon-bookmark-fill"></use>
+              <use href="${icons}#icon-bookmark${
+                this._data.bookmarked ? "-fill" : ""
+              }"></use>
             </svg>
           </button>
         </div>
