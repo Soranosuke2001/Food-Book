@@ -5,21 +5,14 @@ import { Fraction } from "fractional";
 class RecipeView {
   #parentElement = document.querySelector(".recipe");
   #data;
+  #errorMessage =
+    "We could not find the requested recipe. Please try another one!";
+  #successMessage = "";
 
   // addEventListener function
   addHandlerRender(handler) {
     // Fetch recipe data
     ["hashchange", "load"].forEach(ev => window.addEventListener(ev, handler));
-  }
-
-  // Display the recipe section
-  render(data) {
-    this.#data = data;
-    const html = this.#generateMarkup();
-
-    // Display the recipe
-    this.#clearHTML();
-    this.#parentElement.insertAdjacentHTML("afterbegin", html);
   }
 
   // Display the loading spinner
@@ -39,6 +32,50 @@ class RecipeView {
   // Clear all HTML
   #clearHTML() {
     this.#parentElement.innerHTML = "";
+  }
+
+  // Display success message
+  renderSuccess(message = this.#successMessage) {
+    const html = `
+    <div class="message">
+        <div>
+            <svg>
+                <use href="${icons}#icon-smile"></use>
+            </svg>
+        </div>
+        <p>${message}</p>
+    </div>
+    `;
+
+    this.#clearHTML();
+    this.#parentElement.insertAdjacentHTML("afterbegin", html);
+  }
+
+  // Display error message
+  renderError(message = this.#errorMessage) {
+    const html = `
+    <div class="error">
+        <div>
+            <svg>
+                <use href="${icons}#icon-alert-triangle"></use>
+            </svg>
+        </div>
+        <p>${message}</p>
+    </div>
+    `;
+
+    this.#clearHTML();
+    this.#parentElement.insertAdjacentHTML("afterbegin", html);
+  }
+
+  // Display the recipe section
+  render(data) {
+    this.#data = data;
+    const html = this.#generateMarkup();
+
+    // Display the recipe
+    this.#clearHTML();
+    this.#parentElement.insertAdjacentHTML("afterbegin", html);
   }
 
   // Generate the HTML for the recipe section

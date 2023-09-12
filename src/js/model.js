@@ -27,5 +27,6 @@ export async function loadRecipe(id) {
     };
   } catch (error) {
     console.error(error);
+    throw error;
   }
 }
