@@ -5,7 +5,13 @@ import { async } from "regenerator-runtime";
 import recipeView from "./views/recipeView";
 import searchView from "./views/searchView";
 import resultsView from "./views/resultsView";
-import { loadRecipe, state, loadSearchResults } from "./model";
+import {
+  loadRecipe,
+  state,
+  loadSearchResults,
+  getSearchResultsPage,
+} from "./model";
+import paginationView from "./views/paginationView";
 
 if (module.hot) {
   module.hot.accept();
@@ -45,13 +51,24 @@ async function controlSearchResults() {
 
     await loadSearchResults(query);
 
-    resultsView.render(state.search.results);
+    resultsView.render(getSearchResultsPage(state.search.currentPage));
+
+    paginationView.render(state.search);
   } catch (error) {
     console.error(error);
   }
 }
 
+// Render the new recipe preview list
+function controlPagination(nextPage) {
+  resultsView.render(getSearchResultsPage(nextPage));
+  state.search.currentPage = nextPage;
+  paginationView.render(state.search);
+}
+
+// Adding event handler functionality
 (function () {
   recipeView.addHandlerRender(controlRecipes);
   searchView.addHandlerSearch(controlSearchResults);
+  paginationView.addHandlerClick(controlPagination);
 })();
