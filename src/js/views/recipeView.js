@@ -1,13 +1,13 @@
+import View from "./view";
 import icons from "url:../../img/icons.svg";
 
 import { Fraction } from "fractional";
 
-class RecipeView {
-  #parentElement = document.querySelector(".recipe");
-  #data;
-  #errorMessage =
+class RecipeView extends View {
+  _parentElement = document.querySelector(".recipe");
+  _errorMessage =
     "We could not find the requested recipe. Please try another one!";
-  #successMessage = "";
+  _successMessage = "";
 
   // addEventListener function
   addHandlerRender(handler) {
@@ -15,71 +15,8 @@ class RecipeView {
     ["hashchange", "load"].forEach(ev => window.addEventListener(ev, handler));
   }
 
-  // Display the loading spinner
-  displaySpinner() {
-    const html = `
-    <div class="spinner">
-      <svg>
-        <use href="${icons}#icon-loader"></use>
-      </svg>
-    </div>
-    `;
-
-    this.#clearHTML();
-    this.#parentElement.insertAdjacentHTML("afterbegin", html);
-  }
-
-  // Clear all HTML
-  #clearHTML() {
-    this.#parentElement.innerHTML = "";
-  }
-
-  // Display success message
-  renderSuccess(message = this.#successMessage) {
-    const html = `
-    <div class="message">
-        <div>
-            <svg>
-                <use href="${icons}#icon-smile"></use>
-            </svg>
-        </div>
-        <p>${message}</p>
-    </div>
-    `;
-
-    this.#clearHTML();
-    this.#parentElement.insertAdjacentHTML("afterbegin", html);
-  }
-
-  // Display error message
-  renderError(message = this.#errorMessage) {
-    const html = `
-    <div class="error">
-        <div>
-            <svg>
-                <use href="${icons}#icon-alert-triangle"></use>
-            </svg>
-        </div>
-        <p>${message}</p>
-    </div>
-    `;
-
-    this.#clearHTML();
-    this.#parentElement.insertAdjacentHTML("afterbegin", html);
-  }
-
-  // Display the recipe section
-  render(data) {
-    this.#data = data;
-    const html = this.#generateMarkup();
-
-    // Display the recipe
-    this.#clearHTML();
-    this.#parentElement.insertAdjacentHTML("afterbegin", html);
-  }
-
   // Generate the HTML for the recipe section
-  #generateMarkup() {
+  _generateMarkup() {
     const {
       image,
       title,
@@ -88,7 +25,7 @@ class RecipeView {
       ingredients,
       publisher,
       sourceUrl,
-    } = this.#data;
+    } = this._data;
 
     // Format HTML code to display recipe
     return `
@@ -128,11 +65,6 @@ class RecipeView {
             </div>
           </div>
     
-          <div class="recipe__user-generated">
-            <svg>
-              <use href="${icons}#icon-user"></use>
-            </svg>
-          </div>
           <button class="btn--round">
             <svg class="">
               <use href="${icons}#icon-bookmark-fill"></use>
@@ -144,7 +76,7 @@ class RecipeView {
           <h2 class="heading--2">Recipe ingredients</h2>
           <ul class="recipe__ingredient-list">
             ${ingredients
-              .map(ingredient => this.#generateIngredientMarkup(ingredient))
+              .map(ingredient => this._generateIngredientMarkup(ingredient))
               .join("")}
           </ul>
         </div>
@@ -171,7 +103,7 @@ class RecipeView {
   }
 
   // Generate the HTML for the list of ingredients section
-  #generateIngredientMarkup(ingredient) {
+  _generateIngredientMarkup(ingredient) {
     return `
         <li class="recipe__ingredient">
             <svg class="recipe__icon">
@@ -192,3 +124,11 @@ class RecipeView {
 }
 
 export default new RecipeView();
+
+{
+  /* <div class="recipe__user-generated">
+<svg>
+  <use href="${icons}#icon-user"></use>
+</svg>
+</div> */
+}

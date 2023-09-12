@@ -4,9 +4,12 @@ import { async } from "regenerator-runtime";
 
 import recipeView from "./views/recipeView";
 import searchView from "./views/searchView";
+import resultsView from "./views/resultsView";
 import { loadRecipe, state, loadSearchResults } from "./model";
 
-///////////////////////////////////////
+if (module.hot) {
+  module.hot.accept();
+}
 
 // Displays a single recipe using a single recipe ID
 async function controlRecipes() {
@@ -34,13 +37,15 @@ async function controlRecipes() {
 // Fetch the query search results
 async function controlSearchResults() {
   try {
+    resultsView.displaySpinner();
+
     const query = searchView.getQuery();
 
     if (!query) return;
 
     await loadSearchResults(query);
 
-    console.log(state.search.results);
+    resultsView.render(state.search.results);
   } catch (error) {
     console.error(error);
   }

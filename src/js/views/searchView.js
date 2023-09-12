@@ -1,9 +1,9 @@
 class SearchView {
-  #parentElement = document.querySelector(".search");
+  _parentElement = document.querySelector(".search");
 
   // Event listener to fetch query value
   addHandlerSearch(handler) {
-    this.#parentElement.addEventListener("submit", e => {
+    this._parentElement.addEventListener("submit", e => {
       e.preventDefault();
       handler();
     });
@@ -11,15 +11,15 @@ class SearchView {
 
   // Fetch the query submitted by the user
   getQuery() {
-    const query = this.#parentElement.querySelector(".search__field").value;
-    this.#clearSearchInput();
+    const query = this._parentElement.querySelector(".search__field").value;
+    this._clearSearchInput();
 
     return query;
   }
 
   // Clear the search input
-  #clearSearchInput() {
-    this.#parentElement.querySelector(".search__field").value = "";
+  _clearSearchInput() {
+    this._parentElement.querySelector(".search__field").value = "";
   }
 }
 
