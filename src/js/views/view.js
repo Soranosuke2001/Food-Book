@@ -19,10 +19,6 @@ export default class View {
 
   // Updates the DOM without rerendering all the contents
   update(data) {
-    // Check if there is data
-    if (!data || (Array.isArray(data) && data.length === 0))
-      return this.renderError();
-
     // Create the new HTML string
     this._data = data;
     const newHTML = document

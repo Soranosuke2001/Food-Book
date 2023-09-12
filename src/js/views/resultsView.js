@@ -3,8 +3,8 @@ import icons from "url:../../img/icons.svg";
 
 class ResultsView extends View {
   _parentElement = document.querySelector(".results");
-  _errorMessage = 'No recipes found for your query. Please try again.'
-  _successMessage = ''
+  _errorMessage = "No recipes found for your query. Please try again.";
+  _successMessage = "";
 
   // Return the entire HTML code to preview recipes
   _generateMarkup() {
@@ -15,9 +15,13 @@ class ResultsView extends View {
 
   // Return the HTML code to display the recipe preview
   _generatePreviewRecipe(recipe) {
+    const recipeId = window.location.hash.slice(1);
+
     return `
     <li class="preview">
-        <a class="preview__link" href="#${recipe.id}">
+        <a class="preview__link ${
+          recipe.id === recipeId ? "preview__link--active" : ""
+        }" href="#${recipe.id}">
             <figure class="preview__fig">
                 <img src="${recipe.image}" alt="${recipe.title}" />
             </figure>

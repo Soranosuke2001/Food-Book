@@ -29,6 +29,9 @@ async function controlRecipes() {
 
     if (!id) return;
 
+    // Update the necessary DOM
+    resultsView.update(getSearchResultsPage(state.search.currentPage));
+
     // Fetch the recipe
     await loadRecipe(id);
 
