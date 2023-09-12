@@ -75,7 +75,7 @@ function controlPagination(nextPage) {
 // Update the recipe servings
 function controlServings(servings) {
   updateServings(servings);
-  recipeView.render(state.recipe);
+  recipeView.update(state.recipe);
 }
 
 // Adding event handler functionality
