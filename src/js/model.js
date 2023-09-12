@@ -94,6 +94,9 @@ export function addBookmark(recipe) {
 
   // Set recipe bookmarked state to true
   if (recipe.id === state.recipe.id) state.recipe.bookmarked = true;
+
+  // Update the bookmarks in local storage
+  manageBookmarks();
 }
 
 // Remove a recipe from bookmark
@@ -104,4 +107,21 @@ export function removeBookmark(recipeId) {
 
   // Set recipe bookmarked state to false
   if (recipeId === state.recipe.id) state.recipe.bookmarked = false;
+
+  // Update the bookmarks in local storage
+  manageBookmarks();
 }
+
+// Update the bookmarks in local storage
+function manageBookmarks() {
+  localStorage.setItem("bookmarks", JSON.stringify(state.bookmarks));
+}
+
+// Fetching bookmarks from local storage
+(function () {
+  // Fetch bookmarks from local storage
+  const storage = localStorage.getItem("bookmarks");
+
+  // Save the bookmarks to state variable if there is any
+  if (storage) state.bookmarks = JSON.parse(storage);
+})();

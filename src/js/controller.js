@@ -98,8 +98,14 @@ function controlBookmark() {
   bookmarksView.render(state.bookmarks);
 }
 
+// Renders the bookmarks tab
+function controlBookmarks() {
+  bookmarksView.render(state.bookmarks);
+}
+
 // Adding event handler functionality
 (function () {
+  bookmarksView.addHandlerRenderBookmarks(controlBookmarks);
   recipeView.addHandlerRender(controlRecipes);
   recipeView.addHandlerUpdateServings(controlServings);
   recipeView.addHandlerAddBookmark(controlBookmark);
