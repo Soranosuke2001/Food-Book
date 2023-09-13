@@ -7,6 +7,7 @@ import searchView from "./views/searchView";
 import resultsView from "./views/resultsView";
 import paginationView from "./views/paginationView";
 import bookmarksView from "./views/bookmarksView";
+import addRecipeView from "./views/addRecipeView";
 import {
   loadRecipe,
   state,
@@ -15,7 +16,9 @@ import {
   updateServings,
   addBookmark,
   removeBookmark,
+  uploadRecipe,
 } from "./model";
+import { MODAL_CLOSE_TIMEOUT_SEC } from "./config";
 
 if (module.hot) {
   module.hot.accept();
@@ -24,13 +27,13 @@ if (module.hot) {
 // Displays a single recipe using a single recipe ID
 async function controlRecipes() {
   try {
-    // Loading Spinner
-    recipeView.displaySpinner();
-
     // Fetch recipe ID from URL
     const id = window.location.hash.slice(1);
 
     if (!id) return;
+
+    // Loading Spinner
+    recipeView.displaySpinner();
 
     // Update the necessary DOM
     resultsView.update(getSearchResultsPage(state.search.currentPage));
@@ -103,6 +106,31 @@ function controlBookmarks() {
   bookmarksView.render(state.bookmarks);
 }
 
+// Upload the recipe to the API
+async function controlAddRecipe(recipe) {
+  try {
+    // Display a loading spinner
+    addRecipeView.displaySpinner();
+
+    await uploadRecipe(recipe);
+
+    // Show the recipe
+    recipeView.render(state.recipe);
+
+    // Display a success message
+    addRecipeView.renderSuccess();
+
+    // Close the new recipe form
+    setTimeout(() => {
+      addRecipeView.toggleFormWindow();
+    }, MODAL_CLOSE_TIMEOUT_SEC * 1000);
+  } catch (error) {
+    console.error(error);
+
+    addRecipeView.renderError(error);
+  }
+}
+
 // Adding event handler functionality
 (function () {
   bookmarksView.addHandlerRenderBookmarks(controlBookmarks);
@@ -111,4 +139,5 @@ function controlBookmarks() {
   recipeView.addHandlerAddBookmark(controlBookmark);
   searchView.addHandlerSearch(controlSearchResults);
   paginationView.addHandlerClick(controlPagination);
+  addRecipeView.addHandlerSubmit(controlAddRecipe);
 })();
