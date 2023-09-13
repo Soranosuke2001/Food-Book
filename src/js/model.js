@@ -36,7 +36,7 @@ function createRecipeObject(data) {
 // Fetch the recipe data
 export async function loadRecipe(id) {
   try {
-    const data = await getJSON(`${API_URL}${id}`);
+    const data = await getJSON(`${API_URL}${id}?&key=${API_KEY}`);
 
     state.recipe = createRecipeObject(data);
 
@@ -53,7 +53,7 @@ export async function loadRecipe(id) {
 // Fetch recipes from a query string
 export async function loadSearchResults(query) {
   try {
-    const data = await getJSON(`${API_URL}?search=${query}`);
+    const data = await getJSON(`${API_URL}?search=${query}&key=${API_KEY}`);
 
     // Save the query result
     state.search.query = query;
@@ -63,6 +63,7 @@ export async function loadSearchResults(query) {
         title: recipe.title,
         publisher: recipe.publisher,
         image: recipe.image_url,
+        ...(recipe.key && { key: recipe.key }),
       };
     });
 
@@ -133,7 +134,9 @@ export async function uploadRecipe(recipe) {
     );
 
     const ingredients = filteredRecipe.map(ingredient => {
-      const ingredientDetails = ingredient[1].replaceAll(" ", "").split(",");
+      const ingredientDetails = ingredient[1]
+        .split(",")
+        .map(word => word.trim());
 
       if (ingredientDetails.length !== 3)
         throw new Error("Please enter the correct ingredient format!");

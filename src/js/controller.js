@@ -120,6 +120,12 @@ async function controlAddRecipe(recipe) {
     // Display a success message
     addRecipeView.renderSuccess();
 
+    // Rerender the bookmarks tab
+    bookmarksView.render(state.bookmarks);
+
+    // Change the URL to the new recipe
+    window.history.pushState(null, "", `#${state.recipe.id}`);
+
     // Close the new recipe form
     setTimeout(() => {
       addRecipeView.toggleFormWindow();
